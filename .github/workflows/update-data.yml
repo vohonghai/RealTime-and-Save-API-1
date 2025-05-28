@@ -2,7 +2,7 @@ name: Append API Data to CSV
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Chạy mỗi 5 phút
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
