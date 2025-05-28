@@ -17,7 +17,7 @@ jobs:
 
       - name: Fetch data from API and append to CSV
         run: |
-          curl -s https://script.google.com/macros/s/AKfycbwkwZcgAF4htvfZXCNxKYPKuhDV2Z7CVsTyGtgF9KecJSEg7yeJcxEsga2Kv2m2tQg/exec \
+          curl -s https://realtime-weather-api-1.onrender.com/data \
           | jq -r '[.localTime, .temperature, .humidity, .counts, .cps, .uSv, .timestamp, .stationName] | @csv' >> data.csv
 
       - name: Commit and push if changed
