@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Realtime Monitoring</title>
+</head>
+<body>
+  <h2>Realtime Data</h2>
+  <pre id="output">Loading...</pre>
+  <button onclick="downloadCSV()">Download Full Data</button>
+
+  <script>
+    const api = "https://script.google.com/macros/s/AKfycbzSb9XVwkLzyyJY6ileivj1gThZI9juwonQ50hhGThJ6b5mMY08GL2g_2heLgxzGcY/exec";
+    async function fetchData() {
+      const res = await fetch(api);
+      const data = await res.json();
+      document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    }
+    fetchData();
+    setInterval(fetchData, 5000);
+    function downloadCSV() {
+      window.location.href = "https://raw.githubusercontent.com/vohonghai/RealTime-and-Save-API/main/data.csv";
+    }
+  </script>
+</body>
+</html>
