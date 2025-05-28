@@ -1,0 +1,29 @@
+name: Append API Data to CSV
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'   # Chạy mỗi 5 phút
+  workflow_dispatch:        # Cho phép chạy thủ công
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Fetch data from API and append to CSV
+        run: |
+          curl -s https://script.google.com/macros/s/AKfycbzSb9XVwkLzyyJY6ileivj1gThZI9juwonQ50hhGThJ6b5mMY08GL2g_2heLgxzGcY/exec -o latest.json
+          jq -r '[.localTime, .temperature, .humidity, .counts, .cps, .uSv, .timestamp, .stationName] | @csv' latest.json >> data.csv
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add data.csv
+          git commit -m "Append data" || echo "No changes"
+          git push
