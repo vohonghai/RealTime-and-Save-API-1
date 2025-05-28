@@ -2,8 +2,8 @@ name: Append API Data to CSV
 
 on:
   schedule:
-    - cron: '*/5 * * * *'   # Chạy mỗi 5 phút
-  workflow_dispatch:        # Cho phép chạy thủ công
+    - cron: '*/5 * * * *'  # Chạy mỗi 5 phút
+  workflow_dispatch:
 
 jobs:
   update:
@@ -17,13 +17,13 @@ jobs:
 
       - name: Fetch data from API and append to CSV
         run: |
-          curl -s https://script.google.com/macros/s/AKfycbzSb9XVwkLzyyJY6ileivj1gThZI9juwonQ50hhGThJ6b5mMY08GL2g_2heLgxzGcY/exec -o latest.json
-          jq -r '[.localTime, .temperature, .humidity, .counts, .cps, .uSv, .timestamp, .stationName] | @csv' latest.json >> data.csv
+          curl -s https://script.google.com/macros/s/AKfycbwkwZcgAF4htvfZXCNxKYPKuhDV2Z7CVsTyGtgF9KecJSEg7yeJcxEsga2Kv2m2tQg/exec \
+          | jq -r '[.localTime, .temperature, .humidity, .counts, .cps, .uSv, .timestamp, .stationName] | @csv' >> data.csv
 
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add data.csv
-          git commit -m "Append data" || echo "No changes"
+          git commit -m "Append data from API" || echo "No changes"
           git push
