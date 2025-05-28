@@ -1,4 +1,4 @@
-const api = "https://script.google.com/macros/s/AKfycbzSb9XVwkLzyyJY6ileivj1gThZI9juwonQ50hhGThJ6b5mMY08GL2g_2heLgxzGcY/exec";
+const api = "https://realtime-weather-api-1.onrender.com/data";
 
 async function fetchData() {
   try {
